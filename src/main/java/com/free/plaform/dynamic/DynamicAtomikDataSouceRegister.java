@@ -1,3 +1,4 @@
+/*
 package com.free.plaform.dynamic;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -39,11 +40,13 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         initCustomDataSources(environment);
     }
 
-    /**
+    */
+/**
      * @Description 初始化主数据源
      * @author 王鑫
      * @param env
-     */
+     *//*
+
     private void initDefaultDataSource(Environment env) {
         // 读取主数据源
         Binder binder = Binder.get(env); //绑定简单配置
@@ -55,11 +58,13 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
     }
 
 
-    /**
+    */
+/**
      * @Description 初始化更多数据源
      * @author 王鑫
      * @param env
-     */
+     *//*
+
     private void initCustomDataSources(Environment env) {
         // 读取配置文件获取更多数据源，也可以通过defaultDataSource读取数据库获取更多数据源
         Binder binder = Binder.get(env); //绑定简单配置
@@ -98,12 +103,14 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         logger.info("Dynamic DataSource Registry");
     }
 
-    /**
+    */
+/**
      * @Description 创建DataSource
      * @author 王鑫
      * @param dsMap
      * @return
-     */
+     *//*
+
     public DataSource buildDataSource(Map<String, Object> dsMap, Environment env) {
 
         DruidDataSource dataSource = new DruidDataSource();
@@ -212,3 +219,4 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
     }
 
 }
+*/
