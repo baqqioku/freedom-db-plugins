@@ -14,26 +14,21 @@
 
 package com.free.plaform;
 
-import com.atomikos.icatch.jta.UserTransactionImp;
-import com.atomikos.icatch.jta.UserTransactionManager;
 import com.free.plaform.dynamic.DynamicDataSourceRegister;
 import com.free.plaform.dynamic.MultiDataSouceTransactionFactory;
 import com.free.plaform.mybatis.page.PaginationInterception;
 import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
 import javax.sql.DataSource;
-import javax.transaction.UserTransaction;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -49,9 +44,11 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
 @Import({DynamicDataSourceRegister.class})
+@ConditionalOnProperty(prefix = "platform.noXa", value = "enabled")
 public class DataSourceNoXaDynamicConfig {
 
     @Bean
+    @ConditionalOnMissingBean(SqlSessionFactoryBean.class)
     public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) throws SQLException, IOException {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
@@ -64,6 +61,7 @@ public class DataSourceNoXaDynamicConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean(JtaTransactionManager.class)
     public DataSourceTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }

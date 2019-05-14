@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.free.plaform.DataSourceDynamicConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.free.plaform.DataSourceDynamicConfig,\
+com.free.plaform.DataSourceNoXaDynamicConfig

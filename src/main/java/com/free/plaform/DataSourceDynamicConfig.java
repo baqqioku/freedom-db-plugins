@@ -21,6 +21,7 @@ import com.free.plaform.dynamic.MultiDataSouceTransactionFactory;
 import com.free.plaform.mybatis.page.PaginationInterception;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -45,6 +46,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
 @Import({DynamicAtomikDataSouceRegister.class})
+@ConditionalOnProperty(prefix = "platform.xa", value = "enabled")
 public class DataSourceDynamicConfig {
 
 
