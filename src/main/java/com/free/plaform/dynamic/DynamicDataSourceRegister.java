@@ -1,6 +1,7 @@
 package com.free.plaform.dynamic;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.MutablePropertyValues;
@@ -76,6 +77,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
 
         RelaxedPropertyResolver propertyResolver = new RelaxedPropertyResolver(env, "custom.datasource.");
         String dsPrefixs = propertyResolver.getProperty("names");
+        if (StringUtils.isBlank(dsPrefixs)) return;
         for (String dsPrefix : dsPrefixs.split(",")) {// 多个数据源
             Map<String, Object> dsMap = propertyResolver.getSubProperties(dsPrefix + ".");
             DataSource ds = buildDataSource(dsMap, env);
