@@ -32,7 +32,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
-@Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class})})
+@Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class,Integer.class})})
 public class PaginationInterception implements Interceptor {
 
     public Object intercept(Invocation invocation) throws Throwable {
