@@ -40,18 +40,16 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
     }
 
     /**
-     * @Description 初始化主数据源
-     * @author 王鑫
+     * 初始化主数据源
      * @param env
      */
     private void initDefaultDataSource(Environment env) {
         // 读取主数据源
         Binder binder = Binder.get(env); //绑定简单配置
-        DruidSettings propertyResolver = binder.bind("druid.datasource", DruidSettings.class).get();
+        //DruidSettings propertyResolver = binder.bind("druid.datasource", DruidSettings.class).get();
         dataSourcePropertyValues = binder.bind("druid.datasource", Properties.class).get();
         String prefix = "druid.datasource.";
         defaultDataSource = getDataSource(env,prefix,"dataSource");
-        //dataBinder(defaultDataSource, env);
     }
 
 

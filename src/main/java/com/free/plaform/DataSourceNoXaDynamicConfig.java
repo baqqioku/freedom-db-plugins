@@ -66,20 +66,5 @@ public class DataSourceNoXaDynamicConfig {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    /*
-     * 使用这个来做总事务 后面的数据源就不用设置事务了
-     * */
-   /* @Bean(name = "transactionManager")
-    @Primary
-    public JtaTransactionManager regTransactionManager () {
-        UserTransactionManager userTransactionManager = new UserTransactionManager();
-        UserTransaction userTransaction = new UserTransactionImp();
-        return new JtaTransactionManager(userTransaction, userTransactionManager);
-    }*/
-
-    /*@Bean(name = "sessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
-        return new SqlSessionTemplate(sqlSessionFactory);
-    }*/
 
 }

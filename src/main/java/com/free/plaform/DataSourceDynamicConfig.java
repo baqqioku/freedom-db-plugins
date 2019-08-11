@@ -78,8 +78,6 @@ public class DataSourceDynamicConfig {
         return new JtaTransactionManager(userTransaction, userTransactionManager);
     }
 
-    //@Bean(name = "testSqlSessionTemplate") public SqlSessionTemplate testSqlSessionTemplate(SqlSessionFactory sqlSessionFactory)throws Exception{ return new SqlSessionTemplate(sqlSessionFactory); }
-
 
 
 
