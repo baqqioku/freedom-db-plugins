@@ -2,7 +2,7 @@
 
 #### 介绍
 数据库插件
-基于SpringBoot2.X以上
+基于SpringBoot2.X以上  集成了 atomikos
 
 #### 插件配置
 
@@ -40,6 +40,11 @@ custom.datasource.db1.username=root
 custom.datasource.db1.password=root
 custom.datasource.db1.validationQuery=SELECT 1
 
+# 集成了atomikos 通过配置启动，如果不启用可以使用
+#不启动用是atomikos
+platform.noXa.enabled=true
+#启用aomikos
+platform.xa.enabled=true
 ````
 
 
