@@ -4,35 +4,42 @@
 数据库插件
 基于SpringBoot2.X以上
 
-#### 软件架构
-软件架构说明
+#### 插件配置
+
+.properties 数据源配置
+
+````
+# datasource 默认数据源
+druid.datasource.url=jdbc:mysql://localhost:3306/keta_custom?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+druid.datasource.driverClassName=com.mysql.jdbc.Driver
+druid.datasource.username=root
+druid.datasource.password=root
+druid.datasource.filters=stat
+druid.datasource.maxActive=20
+druid.datasource.initialSize=1
+druid.datasource.maxWait=60000
+druid.datasource.minIdle=1
+druid.datasource.timeBetweenEvictionRunsMillis=60000
+druid.datasource.minEvictableIdleTimeMillis=300000
+druid.datasource.validationQuery=SELECT 'x'
+druid.datasource.testWhileIdle=true
+druid.datasource.testOnBorrow=false
+druid.datasource.testOnReturn=false
+druid.datasource.poolPreparedStatements=false
+druid.datasource.maxOpenPreparedStatements=20
+druid.datasource.slowSqlMillis=5000
+druid.datasource.isLogSlowSql=true
 
 
-#### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+# 数据源1 依始类推，db2,db3
+custom.datasource.db1.name=db1
+custom.datasource.db1.url=jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+custom.datasource.db1.driverClassName=com.mysql.jdbc.Driver
+custom.datasource.db1.username=root
+custom.datasource.db1.password=root
+custom.datasource.db1.validationQuery=SELECT 1
 
-#### 使用说明
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 参与贡献
-
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+````
 
 
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
