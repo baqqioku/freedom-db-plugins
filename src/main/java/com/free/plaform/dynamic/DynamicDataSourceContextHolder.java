@@ -21,16 +21,11 @@ public class DynamicDataSourceContextHolder {
         contextHolder.remove();
     }
 
-    /**
-     * @Description 判断指定DataSrouce当前是否存在
-     * @author 王鑫
-     * @param dataSourceId
-     * @return
-     */
-    @SuppressWarnings("unlikely-arg-type")
+
     public static boolean containsDataSource(String dataSourceId) {
-        if(contextHolder.equals(dataSourceId))
+        if(contextHolder.equals(dataSourceId)) {
             return true;
+        }
         return dataSourceIds.contains(dataSourceId);
     }
 }
