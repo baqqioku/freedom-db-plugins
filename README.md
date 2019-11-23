@@ -45,6 +45,39 @@ custom.datasource.db1.validationQuery=SELECT 1
 platform.noXa.enabled=true
 #启用aomikos
 platform.xa.enabled=true
+
 ````
+
+#### 使用
+
+直接放入指定的pom文件
+``````
+         <groupId>com.guoguo.freedom</groupId>
+              <artifactId>freedom-db-plugins</artifactId>
+              <version>1.0-SNAPSHOT</version>
+              <scope>compile</scope>
+          </dependency>
+``````
+调用的时候如果是涉及到多数据源事务 使用spring注解即可 @Transactional
+
+``````
+    @Transactional
+    public  doTrancation(){
+        serviceA();
+        serviceB();
+    
+    }
+    
+    @TargetDataSource(value = "db1")
+    serviceA(){
+      xxxx
+    }
+    
+    @TargetDataSource(value = "db2")
+    serviceB(){
+      xxxx
+    }
+
+``````
 
 
