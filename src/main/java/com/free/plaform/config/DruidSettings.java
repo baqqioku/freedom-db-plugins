@@ -1,10 +1,6 @@
 package com.free.plaform.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Created by serv on 2014/10/11.
- */
 //@ConfigurationProperties(prefix = "druid.datasource")
 public class DruidSettings {
     private String id;

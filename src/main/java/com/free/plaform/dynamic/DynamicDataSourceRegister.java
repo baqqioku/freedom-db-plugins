@@ -1,7 +1,6 @@
 package com.free.plaform.dynamic;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.atomikos.jdbc.AtomikosDataSourceBean;
 import com.free.plaform.config.CustomDataSource;
 import com.free.plaform.config.CustomerDataSourceConfiguration;
 import com.free.plaform.config.DruidSettings;
@@ -23,7 +22,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,EnvironmentAware {
 
@@ -47,8 +45,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
     }
 
     /**
-     * @Description 初始化主数据源
-     * @author 王鑫
+     * 初始化第一数据源
      * @param env
      */
     private void initDefaultDataSource(Environment env) {
@@ -69,7 +66,6 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
 
     /**
      * @Description 初始化更多数据源
-     * @author 王鑫
      * @param env
      */
     private void initCustomDataSources(Environment env) {
@@ -109,12 +105,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         logger.info("Dynamic DataSource Registry");
     }
 
-    /**
-     * @Description 创建DataSource
-     * @author 王鑫
-     * @param dsMap
-     * @return
-     */
+
     public DataSource buildDataSource(Map<String, Object> dsMap, Environment env) {
 
         DruidDataSource dataSource = new DruidDataSource();

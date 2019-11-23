@@ -15,11 +15,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by serv on 2014/11/16.
- */
-//@Configuration
-//@ConditionalOnWebApplication
+
+@Configuration
+@ConditionalOnWebApplication
 public class DruidWebConfiguration {
 
     @Bean(name = "druidWebStatFilter")

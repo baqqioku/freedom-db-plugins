@@ -10,11 +10,10 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
-/**
- * Created by serv on 2014/10/11.
- */
+
 //@Configuration
 //@EnableConfigurationProperties(DruidSettings.class)
+@Deprecated
 public class DruidConfiguration {
 
     @Primary

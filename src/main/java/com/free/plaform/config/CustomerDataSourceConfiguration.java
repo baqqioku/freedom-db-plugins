@@ -25,8 +25,6 @@ import java.util.Map;
  * @since V1.0
  */
 
-//@Configuration
-//@ConfigurationProperties(prefix = "custom")
 public class CustomerDataSourceConfiguration {
 
 

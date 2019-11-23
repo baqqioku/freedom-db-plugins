@@ -2,7 +2,7 @@
 
 #### 介绍
 数据库插件
-基于SpringBoot2.X以上  集成了 atomikos
+基于SpringBoot2.X以上  集成了 atomikos  解决多数据源的动态切换 同时可以满足对多数据的事务管理
 
 #### 插件配置
 

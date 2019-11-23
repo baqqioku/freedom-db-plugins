@@ -55,7 +55,6 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
 
     /**
      * @Description 初始化更多数据源
-     * @author 王鑫
      * @param env
      */
     private void initCustomDataSources(Environment env) {
@@ -96,12 +95,7 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         logger.info("Dynamic DataSource Registry");
     }
 
-    /**
-     * @Description 创建DataSource
-     * @author 王鑫
-     * @param dsMap
-     * @return
-     */
+    @Deprecated
     public DataSource buildDataSource(Map<String, Object> dsMap, Environment env) {
 
         DruidDataSource dataSource = new DruidDataSource();
@@ -131,6 +125,7 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         }
     }
 
+    @Deprecated
     public DataSource buildCustomerAtomikDataSource(CustomDataSource customDataSource){
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
@@ -146,6 +141,7 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         return ds;
     }
 
+    @Deprecated
     public DataSource builCustomerdDataSource(CustomDataSource customDataSource, Environment env) {
 
         DruidDataSource dataSource = new DruidDataSource();
