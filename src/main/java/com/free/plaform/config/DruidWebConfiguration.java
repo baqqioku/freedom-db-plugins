@@ -3,6 +3,7 @@ package com.free.plaform.config;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @Configuration
 @ConditionalOnWebApplication
+@EnableConfigurationProperties(DruidSettings.class)
 public class DruidWebConfiguration {
 
     @Bean(name = "druidWebStatFilter")

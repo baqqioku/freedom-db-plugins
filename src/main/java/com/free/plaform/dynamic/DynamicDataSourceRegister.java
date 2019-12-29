@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.free.plaform.config.CustomDataSource;
 import com.free.plaform.config.CustomerDataSourceConfiguration;
 import com.free.plaform.config.DruidSettings;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.MutablePropertyValues;
@@ -70,6 +71,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
      */
     private void initCustomDataSources(Environment env) {
         // 读取配置文件获取更多数据源，也可以通过defaultDataSource读取数据库获取更多数据源
+        if(!env.containsProperty("custom.datasource.db1.name")) return;
         Binder binder = Binder.get(env); //绑定简单配置
         CustomerDataSourceConfiguration propertyResolver = binder.bind("custom", Bindable.of(CustomerDataSourceConfiguration.class)).get();
         Map<String, CustomDataSource> customDataSourceMap = propertyResolver.getDatasource();
