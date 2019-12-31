@@ -16,7 +16,8 @@ package com.free.plaform;
 
 import com.free.plaform.dynamic.DynamicDataSourceRegister;
 import com.free.plaform.dynamic.MultiDataSouceTransactionFactory;
-import com.free.plaform.mybatis.page.PaginationInterception;
+import com.free.plaform.mybatis.plugins.CatMybatisPlugins;
+import com.free.plaform.mybatis.plugins.PaginationInterception;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -56,7 +57,7 @@ public class DataSourceNoXaDynamicConfig {
         Properties properties = new Properties();
         properties.setProperty("sqlType", "mysql");
         sqlSessionFactoryBean.setConfigurationProperties(properties);
-        sqlSessionFactoryBean.setPlugins(new Interceptor[]{new PaginationInterception()});
+        sqlSessionFactoryBean.setPlugins(new Interceptor[]{new PaginationInterception(),new CatMybatisPlugins()});
         return sqlSessionFactoryBean;
     }
 

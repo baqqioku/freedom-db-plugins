@@ -2,7 +2,11 @@
 
 #### 介绍
 数据库插件
-基于SpringBoot2.X+myBatis3.5+以上  集成了 atomikos  解决多数据源的动态切换 同时可以满足对多数据的事务管理
+基于SpringBoot2.X+myBatis3.5+以上  集成了 atomikos  解决多数据源的动态切换 同时可以满足对多数据的事务管理,
+atomikos可插拔，提供了两个配置类,可以自主切换
+
+1. DataSourceDynamicConfig  #集成了atomikos
+2. DataSourceNoXaDynamicConfig # 去除aomikos
 
 #### 插件配置
 

@@ -1,4 +1,4 @@
-package com.free.plaform.mybatis.page;
+package com.free.plaform.mybatis.plugins;
 
 
 

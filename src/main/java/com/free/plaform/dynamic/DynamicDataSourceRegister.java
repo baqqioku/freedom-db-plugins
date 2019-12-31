@@ -1,6 +1,7 @@
 package com.free.plaform.dynamic;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.atomikos.jdbc.AtomikosDataSourceBean;
 import com.free.plaform.config.CustomDataSource;
 import com.free.plaform.config.CustomerDataSourceConfiguration;
 import com.free.plaform.config.DruidSettings;
@@ -23,6 +24,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,EnvironmentAware {
 
@@ -30,7 +32,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
 
     private ConversionService conversionService = new DefaultConversionService();
 
-    private Map dataSourcePropertyValues;
+    private Properties dataSourcePropertyValues;
 
     private DataSource defaultDataSource;
 
@@ -38,11 +40,8 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
 
     @Override
     public void setEnvironment(Environment environment) {
-
         initDefaultDataSource(environment);
         initCustomDataSources(environment);
-
-
     }
 
     /**
@@ -52,16 +51,8 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
     private void initDefaultDataSource(Environment env) {
        // 读取主数据源
         Binder binder = Binder.get(env); //绑定简单配置
-        DruidSettings propertyResolver = binder.bind("druid.datasource", Bindable.of(DruidSettings.class)).get();
-        dataSourcePropertyValues = binder.bind("druid.datasource", Map.class).get();
-        Map<String, Object> dsMap = new HashMap<String, Object>();
-        dsMap.put("driverClassName", propertyResolver.getDriverClassName());
-        dsMap.put("url", propertyResolver.getUrl());
-        dsMap.put("username", propertyResolver.getUsername());
-        dsMap.put("password", propertyResolver.getPassword());
-        dsMap.put("validationQuery", propertyResolver.getValidationQuery());
-        defaultDataSource = buildDataSource(dsMap, env);
-        //dataBinder(defaultDataSource, env);
+        dataSourcePropertyValues = binder.bind("druid.datasource", Properties.class).get();
+        defaultDataSource = buildDataSource(dataSourcePropertyValues, env);
     }
 
 
@@ -77,10 +68,9 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         Map<String, CustomDataSource> customDataSourceMap = propertyResolver.getDatasource();
         for(Map.Entry entry : customDataSourceMap.entrySet()){
             CustomDataSource customDataSource = (CustomDataSource) entry.getValue();
-            DataSource ds = builCustomerdDataSource(customDataSource, env);
+            DataSource ds = builCustomerdDataSource(customDataSource,env);
             customerDataSources.put((String) entry.getKey(), ds);
         }
-
     }
 
 
@@ -107,9 +97,16 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         logger.info("Dynamic DataSource Registry");
     }
 
+    protected  DataSource buildDefaultDataSource(Properties properties,String dataSourceName ){
+        DruidDataSource ds = new DruidDataSource();
+        ds.configFromPropety(properties);
+        ds.setName(dataSourceName);
+        return ds;
+    }
 
-    public DataSource buildDataSource(Map<String, Object> dsMap, Environment env) {
 
+    @Deprecated
+    public DataSource buildDataSource(Properties dsMap, Environment env) {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(dsMap.get("url").toString());
         dataSource.setDriverClassName(dsMap.get("driverClassName").toString());
@@ -124,9 +121,9 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         dataSource.setMaxWait(Integer.parseInt(propertyResolver.getMaxWait().toString()));
         //dataSource.setUseUnfairLock(Boolean.valueOf(propertyResolver.get("useUnfairLock")));
         dataSource.setValidationQuery(propertyResolver.getValidationQuery());
-        //dataSource.setTestOnBorrow(Boolean.valueOf(propertyResolver.get("testOnBorrow")));
-        //dataSource.setTestOnReturn(Boolean.valueOf(propertyResolver.getProperty("testOnReturn")));
-        //dataSource.setTestWhileIdle(Boolean.valueOf(propertyResolver.getProperty("testWhileIdle")));
+        dataSource.setTestOnBorrow(Boolean.valueOf(propertyResolver.isTestOnBorrow()));
+        dataSource.setTestOnReturn(Boolean.valueOf(propertyResolver.isTestOnReturn()));
+        dataSource.setTestWhileIdle(Boolean.valueOf(propertyResolver.isTestWhileIdle()));
         dataSource.setTimeBetweenEvictionRunsMillis(Integer.parseInt(propertyResolver.getTimeBetweenEvictionRunsMillis().toString()));
         dataSource.setMinEvictableIdleTimeMillis(Integer.parseInt(propertyResolver.getMinEvictableIdleTimeMillis().toString()));
         try {
@@ -137,6 +134,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         }
     }
 
+    @Deprecated
     public DataSource builCustomerdDataSource(CustomDataSource customDataSource, Environment env) {
 
         DruidDataSource dataSource = new DruidDataSource();
@@ -144,7 +142,6 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         dataSource.setDriverClassName(customDataSource.getDriverClassName());
         dataSource.setUsername(customDataSource.getUsername().toString());
         dataSource.setPassword(customDataSource.getPassword().toString());
-
         Binder binder = Binder.get(env); //绑定简单配置
         DruidSettings propertyResolver = binder.bind("druid.datasource", Bindable.of(DruidSettings.class)).get();
         dataSource.setInitialSize(Integer.parseInt(propertyResolver.getInitialSize().toString()));
@@ -153,9 +150,9 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         dataSource.setMaxWait(Integer.parseInt(propertyResolver.getMaxWait().toString()));
         //dataSource.setUseUnfairLock(Boolean.valueOf(propertyResolver.get("useUnfairLock")));
         dataSource.setValidationQuery(propertyResolver.getValidationQuery());
-        //dataSource.setTestOnBorrow(Boolean.valueOf(propertyResolver.get("testOnBorrow")));
-        //dataSource.setTestOnReturn(Boolean.valueOf(propertyResolver.getProperty("testOnReturn")));
-        //dataSource.setTestWhileIdle(Boolean.valueOf(propertyResolver.getProperty("testWhileIdle")));
+        dataSource.setTestOnBorrow(Boolean.valueOf(propertyResolver.isTestOnBorrow()));
+        dataSource.setTestOnReturn(Boolean.valueOf(propertyResolver.isTestOnReturn()));
+        dataSource.setTestWhileIdle(Boolean.valueOf(propertyResolver.isTestWhileIdle()));
         dataSource.setTimeBetweenEvictionRunsMillis(Integer.parseInt(propertyResolver.getTimeBetweenEvictionRunsMillis().toString()));
         dataSource.setMinEvictableIdleTimeMillis(Integer.parseInt(propertyResolver.getMinEvictableIdleTimeMillis().toString()));
         try {
@@ -166,11 +163,16 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         }
     }
 
+    public DataSource buildCustomerDataSouce(CustomDataSource customDataSource){
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setConnectProperties(dataSourcePropertyValues);
+        dataSource.setUrl(customDataSource.getUrl());
+        dataSource.setDriverClassName(customDataSource.getDriverClassName());
+        dataSource.setUsername(customDataSource.getUsername().toString());
+        dataSource.setPassword(customDataSource.getPassword().toString());
+        return dataSource;
+    }
 
 
 
-    /*@Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        defaultDataSource  = (DataSource) applicationContext.getBean("defaultDataSource");
-    }*/
 }

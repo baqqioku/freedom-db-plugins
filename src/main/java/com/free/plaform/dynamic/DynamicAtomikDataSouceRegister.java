@@ -46,10 +46,8 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
     private void initDefaultDataSource(Environment env) {
         // 读取主数据源
         Binder binder = Binder.get(env); //绑定简单配置
-        //DruidSettings propertyResolver = binder.bind("druid.datasource", DruidSettings.class).get();
         dataSourcePropertyValues = binder.bind("druid.datasource", Properties.class).get();
-        String prefix = "druid.datasource.";
-        defaultDataSource = getDataSource(env,prefix,"dataSource");
+        defaultDataSource = buildDefaultDataSource(dataSourcePropertyValues,"dataSource");
     }
 
 
@@ -63,7 +61,6 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         CustomerDataSourceConfiguration propertyResolver = binder.bind("custom", CustomerDataSourceConfiguration.class).get();
         Map<String, CustomDataSource> customDataSourceMap = propertyResolver.getDatasource();
         for(Map.Entry entry : customDataSourceMap.entrySet()){
-            //CustomDataSource customDataSource = (CustomDataSource) entry.getValue();
             Properties properties = binder.bind("custom.datasource."+entry.getKey(),Properties.class).get();
             DataSource ds = buildCustomerAtomikDataSource(properties);
             customerDataSources.put((String) entry.getKey(), ds);
@@ -125,19 +122,14 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         }
     }
 
-    @Deprecated
-    public DataSource buildCustomerAtomikDataSource(CustomDataSource customDataSource){
-        AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
-        ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
-        ds.setUniqueResourceName(customDataSource.getName());
-        return ds;
-    }
 
-    public DataSource buildCustomerAtomikDataSource(Properties properties){
+    public DataSource buildCustomerAtomikDataSource(Properties customerProperties){
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
+        Properties customer = (Properties) dataSourcePropertyValues.clone();
+        customer.putAll(customerProperties);
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
-        ds.setUniqueResourceName(properties.getProperty("name"));
-        ds.setXaProperties(properties);
+        ds.setUniqueResourceName(customerProperties.getProperty("name"));
+        ds.setXaProperties(customer);
         return ds;
     }
 
@@ -149,7 +141,6 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         dataSource.setDriverClassName(customDataSource.getDriverClassName());
         dataSource.setUsername(customDataSource.getUsername().toString());
         dataSource.setPassword(customDataSource.getPassword().toString());
-
         Binder binder = Binder.get(env); //绑定简单配置
         DruidSettings propertyResolver = binder.bind("druid.datasource", Bindable.of(DruidSettings.class)).get();
         dataSource.setInitialSize(Integer.parseInt(propertyResolver.getInitialSize().toString()));
@@ -171,15 +162,15 @@ public class DynamicAtomikDataSouceRegister implements ImportBeanDefinitionRegis
         }
     }
 
-    protected DataSource getDataSource(Environment env, String prefix, String dataSourceName){
-        Properties prop = build(env,prefix);
+    protected  DataSource buildDefaultDataSource(Properties properties,String dataSourceName ){
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
         ds.setUniqueResourceName(dataSourceName);
-        ds.setXaProperties(prop);
+        ds.setXaProperties(properties);
         return ds;
     }
 
+    @Deprecated
     protected Properties build(Environment env, String prefix) {
         Properties prop = new Properties();
         prop.put("url", env.getProperty(prefix + "url"));
